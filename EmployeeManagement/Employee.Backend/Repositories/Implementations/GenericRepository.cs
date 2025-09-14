@@ -1,4 +1,7 @@
-﻿using EmployeeManagement.Backend.Data;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using System.Linq.Dynamic.Core;
+using EmployeeManagement.Backend.Data;
 using EmployeeManagement.Backend.Repositories.Interfaces;
 using EmployeeManagement.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -121,26 +124,4 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         Message = "Ya existe el registro."
     };
-
-    public async Task<ActionResponse<IEnumerable<T>>> SerchAsync(string text)
-    {
-        if (string.IsNullOrWhiteSpace(text))
-            return await GetAsync();
-
-        var query = _context.Set<T>().AsQueryable();
-
-        var stringProps = typeof(T).GetProperties().Where(p => p.PropertyType == typeof(string));
-
-        foreach (var prop in stringProps)
-        {
-            query = query.Where(e => EF.Functions.Like(EF.Property<string>(e, prop.Name), $"{text}"));
-        }
-
-        var result = await query.ToListAsync();
-        return new ActionResponse<IEnumerable<T>>
-        {
-            WasSucces = true,
-            Result = result
-        };
-    }
 }

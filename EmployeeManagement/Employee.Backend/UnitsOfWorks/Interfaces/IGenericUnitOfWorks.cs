@@ -9,8 +9,6 @@ namespace EmployeeManagement.Backend.UnitsOfWorks.Interfaces
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
 
-        Task<ActionResponse<IEnumerable<T>>> SerchAsync(string text);
-
         Task<ActionResponse<T>> AddAsync(T entity);
 
         Task<ActionResponse<T>> DeleteAsync(int id);

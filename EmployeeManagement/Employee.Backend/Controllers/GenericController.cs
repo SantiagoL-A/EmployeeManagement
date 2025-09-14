@@ -34,17 +34,6 @@ public class GenericController<T> : Controller where T : class
         return NotFound();
     }
 
-    [HttpGet("search/{text}")]
-    public virtual async Task<IActionResult> SearchAsync(string text)
-    {
-        var action = await _unitOfWork.SerchAsync(text);
-        if (action.WasSucces)
-        {
-            return Ok(action.Result);
-        }
-        return BadRequest(action.Message);
-    }
-
     [HttpPost]
     public virtual async Task<IActionResult> PostAsync(T model)
     {

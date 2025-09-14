@@ -21,7 +21,5 @@ public class GenericUnitOfWork<T> : IGenericUnitOfWorks<T> where T : class
 
     public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync() => await _repository.GetAsync();
 
-    public async Task<ActionResponse<IEnumerable<T>>> SerchAsync(string text) => await _repository.GetAsync();
-
     public virtual async Task<ActionResponse<T>> UpdateAsync(T entity) => await _repository.UpdateAsync(entity);
 }
