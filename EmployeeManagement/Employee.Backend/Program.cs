@@ -1,9 +1,10 @@
 using EmployeeManagement.Backend.Data;
 using EmployeeManagement.Backend.Repositories.Implementations;
-using Microsoft.EntityFrameworkCore;
 using EmployeeManagement.Backend.Repositories.Interfaces;
-using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
 using EmployeeManagement.Backend.UnitsOfWorks.Implementations;
+
+using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,10 +1,7 @@
-﻿using EmployeeManagement.Shared.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using EmployeeManagement.Backend.Repositories.Interfaces;
 using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
-using EmployeeManagement.Backend.Repositories.Interfaces;
-using EmployeeManagement.Backend.Repositories.Implementations;
+using EmployeeManagement.Shared.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Backend.Controllers
 {
@@ -19,7 +16,6 @@ namespace EmployeeManagement.Backend.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        // Endpoint para buscar empleados por texto
         [HttpGet("search")]
         public async Task<ActionResult<List<Employee>>> Search([FromQuery] string text)
         {

@@ -1,8 +1,9 @@
-﻿using EmployeeManagement.Shared.Entities;
+﻿using EmployeeManagement.Backend.Data;
+
 using EmployeeManagement.Backend.Repositories.Interfaces;
-using EmployeeManagement.Backend.Repositories.Implementations;
+
+using EmployeeManagement.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Backend.Data;
 
 namespace EmployeeManagement.Backend.Repositories.Implementations;
 

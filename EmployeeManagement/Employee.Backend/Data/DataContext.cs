@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Shared.Entities;
+﻿using EmployeeManagement.Shared.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Backend.Data;
 

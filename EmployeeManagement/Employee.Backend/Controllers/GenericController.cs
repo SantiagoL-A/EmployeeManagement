@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
+﻿using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Backend.Controllers;
 

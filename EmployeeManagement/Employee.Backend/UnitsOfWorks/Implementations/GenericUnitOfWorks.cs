@@ -1,6 +1,7 @@
-﻿using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
+﻿using EmployeeManagement.Backend.Repositories.Interfaces;
+
+using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
 using EmployeeManagement.Shared.Responses;
-using EmployeeManagement.Backend.Repositories.Interfaces;
 
 namespace EmployeeManagement.Backend.UnitsOfWorks.Implementations;
 
