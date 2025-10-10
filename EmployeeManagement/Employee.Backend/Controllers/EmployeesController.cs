@@ -40,6 +40,18 @@ namespace EmployeeManagement.Backend.Controllers
                 return NotFound("No se encontraron empleados");
 
             return Ok(employees);
+        }        
+        [HttpGet("searchFullName")]
+        public async Task<ActionResult<List<Employee>>> SearchByFullName([FromQuery] string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return BadRequest("El texto no puede estar vacío");
+
+            var employees = await _employeeUnitOfWork.GetEmployeesFullNameByTextAsync(text);
+            if (employees.Count == 0)
+                return NotFound("No se encontraron empleados");
+
+            return Ok(employees);
         }
     }
 }
