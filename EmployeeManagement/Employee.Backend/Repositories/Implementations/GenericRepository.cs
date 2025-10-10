@@ -1,7 +1,9 @@
 ﻿using EmployeeManagement.Backend.Data;
+using EmployeeManagement.Backend.Helpers;
 using EmployeeManagement.Backend.Repositories.Interfaces;
 using EmployeeManagement.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using Orders.shared.DTOs;
 
 namespace EmployeeManagement.Backend.Repositories.Implementations;
 
@@ -120,4 +122,26 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         Message = "Ya existe el registro."
     };
+
+    public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+    {
+        var queryable = _entity.AsQueryable();
+
+        return new ActionResponse<IEnumerable<T>>
+        {
+            WasSucces = true,
+            Result = await queryable.paginate(pagination).ToListAsync()
+        };
+    }
+
+    public virtual async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
+    {
+        var queryable = _entity.AsQueryable();
+        double count = await queryable.CountAsync();
+        return new ActionResponse<int>
+        {
+            WasSucces = true,
+            Result = (int)count
+        };
+    }
 }

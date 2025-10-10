@@ -10,5 +10,9 @@ namespace EmployeeManagement.Backend.Repositories.Interfaces;
 
 public interface IEmployeeRepository : IGenericRepository<Employee>
 {
-    Task<List<Employee>> GetEmployeesByTextAsync(string searchText);
+    Task<List<Employee>> GetEmployeesNameByTextAsync(string searchText);
+
+    Task<List<Employee>> GetEmployeesLastNameByTextAsync(string searchText);
+
+    Task<List<Employee>> GetEmployeesFullNameByTextAsync(string searchText);
 }

@@ -1,6 +1,7 @@
 ﻿using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
+using Orders.shared.DTOs;
 
 namespace EmployeeManagement.Backend.Controllers;
 
@@ -66,5 +67,27 @@ public class GenericController<T> : Controller where T : class
             return NoContent();
         }
         return BadRequest(action.Message);
+    }
+
+    [HttpGet("paginated")]
+    public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _unitOfWork.GetAsync(pagination);
+        if (action.WasSucces)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
+    }
+
+    [HttpGet("totalRecords")]
+    public virtual async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _unitOfWork.GetTotalRecordsAsync(pagination);
+        if (action.WasSucces)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
     }
 }

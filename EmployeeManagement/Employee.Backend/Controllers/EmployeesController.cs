@@ -9,20 +9,33 @@ namespace EmployeeManagement.Backend.Controllers
     [Route("api/[controller]")]
     public class EmployeesController : GenericController<Employee>
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEmployeeUnitOfWork _employeeUnitOfWork;
 
-        public EmployeesController(IGenericUnitOfWorks<Employee> unitofwork, IEmployeeRepository employeeRepository) : base(unitofwork)
+        public EmployeesController(IGenericUnitOfWorks<Employee> unitofwork, IEmployeeUnitOfWork employeeUnitOfWork) : base(unitofwork)
         {
-            _employeeRepository = employeeRepository;
+            _employeeUnitOfWork = employeeUnitOfWork;
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<List<Employee>>> Search([FromQuery] string text)
+        [HttpGet("searchName")]
+        public async Task<ActionResult<List<Employee>>> SearchByName([FromQuery] string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return BadRequest("El texto no puede estar vacío");
 
-            var employees = await _employeeRepository.GetEmployeesByTextAsync(text);
+            var employees = await _employeeUnitOfWork.GetEmployeesNameByTextAsync(text);
+            if (employees.Count == 0)
+                return NotFound("No se encontraron empleados");
+
+            return Ok(employees);
+        }
+
+        [HttpGet("searchLastName")]
+        public async Task<ActionResult<List<Employee>>> SearchByLastName([FromQuery] string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return BadRequest("El texto no puede estar vacío");
+
+            var employees = await _employeeUnitOfWork.GetEmployeesLastNameByTextAsync(text);
             if (employees.Count == 0)
                 return NotFound("No se encontraron empleados");
 
