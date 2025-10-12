@@ -28,12 +28,15 @@ else
         </ToolBarContent>
         <HeaderContent>
             <MudTh>Empleado</MudTh>
-            <MudTh style="width: 100px;">Salario</MudTh>
+            <MudTh style="width: 20px;">Id</MudTh>
+            <MudTh style="width: 130px;">Salario</MudTh>
             <MudTh style="width: 270px;">Acciones</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.FirstName  @context.LastName</MudTd>
-            <MudTd>@context.Salary</MudTd>
+            <MudTd>@context.Id</MudTd>
+            <MudTd>@($"{context.Salary:N0}")</MudTd>
+
             <MudTd>
                 <MudTooltip Text="Editar">
                     <MudButton Variant="Variant.Filled"
