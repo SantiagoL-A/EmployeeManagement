@@ -1,5 +1,6 @@
-﻿using EmployeeManagement.Backend.Data;
-
+﻿using System.Linq;
+using EmployeeManagement.Backend.Data;
+using EmployeeManagement.Backend.Helpers;
 using EmployeeManagement.Backend.Repositories.Interfaces;
 
 using EmployeeManagement.Shared.Entities;
@@ -33,13 +34,40 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployeeReposito
         return await _context.Set<Employee>().Where(e => e.LastName.Contains(searchText) || e.FirstName.Contains(searchText)).ToListAsync();
     }
 
+    public override async Task<ActionResponse<IEnumerable<Employee>>> GetAsync(PaginationDTO pagination)
+    {
+        var queryable = _context.Employees
+            .AsQueryable();
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            var filter = pagination.Filter.ToLower();
+
+            queryable = queryable.Where(x =>
+                x.FirstName.ToLower().Contains(filter) ||
+                x.LastName.ToLower().Contains(filter));
+        }
+
+        return new ActionResponse<IEnumerable<Employee>>
+        {
+            WasSucces = true,
+            Result = await queryable
+                .OrderBy(c => c.FirstName)
+                .paginate(pagination)
+                .ToListAsync()
+        };
+    }
+
     public override async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.Employees.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.FirstName.ToLower().Contains(pagination.Filter.ToLower()) || x.LastName.ToLower().Contains(pagination.Filter.ToLower()));
+            var filter = pagination.Filter.ToLower();
+
+            queryable = queryable.Where(x =>
+                x.FirstName.ToLower().Contains(filter) ||
+                x.LastName.ToLower().Contains(filter));
         }
 
         double count = await queryable.CountAsync();

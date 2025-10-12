@@ -93,7 +93,7 @@ public partial class EmployeeIndex
             var parameters = new DialogParameters
             {
                 { "Id", id }
-            }; dialog = await DialogService.ShowAsync<EmployeeEdit>("Editar país", parameters, options);
+            }; dialog = await DialogService.ShowAsync<EmployeeEdit>("Editar Empleado", parameters, options);
         }
         else
         {
@@ -119,7 +119,7 @@ public partial class EmployeeIndex
     {
         var parameters = new DialogParameters
         {
-            { "Message", $"Estas seguro de borrar el Empleado: {employee.FirstName}" }
+            { "Message", $"Estas seguro de borrar el Empleado: {employee.FirstName + employee.LastName}" }
         };
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
         var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirmación", parameters, options);
@@ -134,7 +134,7 @@ public partial class EmployeeIndex
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/countries");
+                NavigationManager.NavigateTo("/employees");
             }
             else
             {
