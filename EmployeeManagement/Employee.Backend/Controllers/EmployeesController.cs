@@ -1,12 +1,15 @@
 ﻿using EmployeeManagement.Backend.Repositories.Interfaces;
 using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
 using EmployeeManagement.Shared.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orders.shared.DTOs;
 
 namespace EmployeeManagement.Backend.Controllers;
 
 [ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("api/[controller]")]
 public class EmployeesController : GenericController<Employee>
 {

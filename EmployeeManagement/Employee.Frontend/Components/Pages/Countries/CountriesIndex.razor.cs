@@ -1,12 +1,14 @@
 using EmployeeManagement.Frontend.Components.Shared;
 using EmployeeManagement.Frontend.Repositories;
 using EmployeeManagement.Shared.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Net;
 
 namespace EmployeeManagement.Frontend.Components.Pages.Countries;
 
+[Authorize(Roles = "Admin")]
 public partial class CountriesIndex
 {
     private List<Country>? Countries { get; set; }

@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Backend.UnitsOfWorks.Implementations;
 using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orders.shared.DTOs;
@@ -7,7 +8,7 @@ using Orders.shared.DTOs;
 namespace EmployeeManagement.Backend.Controllers;
 
 [ApiController]
-//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("api/[controller]")]
 public class StatesController : GenericController<State>
 {

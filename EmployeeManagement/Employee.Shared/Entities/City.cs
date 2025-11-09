@@ -23,5 +23,5 @@ public class City : IEntityWithName
     [JsonIgnore]
     public State? State { get; set; }
 
-    //public ICollection<User>? Users { get; set; }
+    public ICollection<User>? Users { get; set; }
 }
