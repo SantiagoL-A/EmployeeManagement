@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
+﻿using EmployeeManagement.Backend.UnitsOfWorks.Implementations;
+using EmployeeManagement.Backend.UnitsOfWorks.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 using Orders.shared.DTOs;
@@ -14,8 +15,30 @@ public class GenericController<T> : Controller where T : class
         _unitOfWork = unitOfWork;
     }
 
+    [HttpGet("paginated")]
+    public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _unitOfWork.GetAsync(pagination);
+        if (action.WasSucces)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
+    }
+
+    [HttpGet("totalRecords")]
+    public virtual async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _unitOfWork.GetTotalRecordsAsync(pagination);
+        if (action.WasSucces)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
+    }
+
     [HttpGet]
-    public virtual async Task<IActionResult> GetActionAsync()
+    public virtual async Task<IActionResult> GetAsync()
     {
         var action = await _unitOfWork.GetAsync();
         if (action.WasSucces)
@@ -67,27 +90,5 @@ public class GenericController<T> : Controller where T : class
             return NoContent();
         }
         return BadRequest(action.Message);
-    }
-
-    [HttpGet("paginated")]
-    public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
-    {
-        var action = await _unitOfWork.GetAsync(pagination);
-        if (action.WasSucces)
-        {
-            return Ok(action.Result);
-        }
-        return BadRequest();
-    }
-
-    [HttpGet("totalRecords")]
-    public virtual async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
-    {
-        var action = await _unitOfWork.GetTotalRecordsAsync(pagination);
-        if (action.WasSucces)
-        {
-            return Ok(action.Result);
-        }
-        return BadRequest();
     }
 }

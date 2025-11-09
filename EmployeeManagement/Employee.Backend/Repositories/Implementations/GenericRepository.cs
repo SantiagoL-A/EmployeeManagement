@@ -18,6 +18,30 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _entity = context.Set<T>();
     }
 
+    public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+    {
+        var queryable = _entity.AsQueryable();
+
+        return new ActionResponse<IEnumerable<T>>
+        {
+            WasSucces = true,
+            Result = await queryable
+                .paginate(pagination)
+                .ToListAsync()
+        };
+    }
+
+    public virtual async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
+    {
+        var queryable = _entity.AsQueryable();
+        double count = await queryable.CountAsync();
+        return new ActionResponse<int>
+        {
+            WasSucces = true,
+            Result = (int)count
+        };
+    }
+
     public virtual async Task<ActionResponse<T>> AddAsync(T entity)
     {
         _context.Add(entity);
@@ -36,7 +60,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
         catch (Exception exception)
         {
-            return ExceptionActionResponse(exception);
+            return ExceptionActionRespose(exception);
         }
     }
 
@@ -51,19 +75,20 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             };
         }
         _entity.Remove(row);
+
         try
         {
             await _context.SaveChangesAsync();
             return new ActionResponse<T>
             {
-                WasSucces = true,
+                WasSucces = true
             };
         }
         catch
         {
             return new ActionResponse<T>
             {
-                Message = "No se puede borrar porque tiene registros relacionados"
+                Message = "No se puede borrar porque tiene registros relacionados."
             };
         }
     }
@@ -109,39 +134,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
         catch (Exception exception)
         {
-            return ExceptionActionResponse(exception);
+            return ExceptionActionRespose(exception);
         }
     }
 
-    private ActionResponse<T> ExceptionActionResponse(Exception exception) => new ActionResponse<T>
+    private ActionResponse<T> ExceptionActionRespose(Exception exception) => new ActionResponse<T>
     {
-        Message = exception.Message,
+        Message = exception.Message
     };
 
     private ActionResponse<T> DbUpdateExceptionActionResponse() => new ActionResponse<T>
     {
         Message = "Ya existe el registro."
     };
-
-    public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
-    {
-        var queryable = _entity.AsQueryable();
-
-        return new ActionResponse<IEnumerable<T>>
-        {
-            WasSucces = true,
-            Result = await queryable.paginate(pagination).ToListAsync()
-        };
-    }
-
-    public virtual async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
-    {
-        var queryable = _entity.AsQueryable();
-        double count = await queryable.CountAsync();
-        return new ActionResponse<int>
-        {
-            WasSucces = true,
-            Result = (int)count
-        };
-    }
 }
