@@ -20,7 +20,6 @@ public class City : IEntityWithName
 
     public int StateId { get; set; }
 
-    [JsonIgnore]
     public State? State { get; set; }
 
     public ICollection<User>? Users { get; set; }

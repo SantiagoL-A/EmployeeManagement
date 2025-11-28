@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using EmployeeManagement.Backend.Data;
+using EmployeeManagement.Backend.Helpers;
 using EmployeeManagement.Backend.Repositories.Implementations;
 using EmployeeManagement.Backend.Repositories.Interfaces;
 using EmployeeManagement.Backend.UnitsOfWorks.Implementations;
@@ -39,6 +40,8 @@ builder.Services.AddScoped<IStatesRepository, StatesRepository>();
 builder.Services.AddScoped<ICitiesUnitOfWork, CitiesUnitOfWork>();
 builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
 builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
+
+builder.Services.AddScoped<IFileStorage, FileStorage>();
 
 builder.Services.AddIdentity<User, IdentityRole>(x =>
 {
